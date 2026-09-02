@@ -53,8 +53,8 @@ class AsyncSmallPictClient:
                 "Missing required SmallPict API Key. Provide `api_key` argument or set SMALLPICT_API_KEY environment variable."
             )
 
-        raw_base = base_url or os.environ.get("SMALLPICT_BASE_URL", "https://api.smallpict.app")
-        self.base_url = raw_base.rstrip("/")
+        raw_base: str = base_url or os.environ.get("SMALLPICT_BASE_URL") or "https://api.smallpict.app"
+        self.base_url: str = raw_base.rstrip("/")
         self.timeout = timeout
         self.max_retries = max_retries
         self.fallback_mode = fallback_mode
@@ -140,7 +140,7 @@ class AsyncSmallPictClient:
             attempt += 1
             timestamp = str(int(time.time()))
 
-            headers = {
+            headers: Dict[str, str] = {
                 "Accept": "application/json",
                 "X-API-Key": self.api_key,
             }
