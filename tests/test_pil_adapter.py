@@ -1,4 +1,5 @@
 import pytest
+
 from smallpict.pil_adapter import extract_pil_bytes, is_pil_image
 
 try:
