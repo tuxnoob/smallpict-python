@@ -31,9 +31,18 @@ from .pil_adapter import extract_pil_bytes, is_pil_image
 
 class AsyncSmallPictClient:
     """
-    Asynchronous SmallPict API client for asyncio, FastAPI, Starlette, and Celery workflows.
-    Supports async context manager (`async with AsyncSmallPictClient(...) as client:`).
+    Asynchronous SmallPict API client for asyncio event loops and high-concurrency workloads.
+    Supports asynchronous context manager (`async with AsyncSmallPictClient(...) as client:`).
     """
+
+    api_key: str
+    secret_key: Optional[str]
+    base_url: str
+    timeout: float
+    max_retries: int
+    fallback_mode: FallbackMode
+    _client: httpx.AsyncClient
+    _external_client: bool
 
     def __init__(
         self,
@@ -45,7 +54,8 @@ class AsyncSmallPictClient:
         fallback_mode: FallbackMode = FallbackMode.THROW,
         http_client: Optional[httpx.AsyncClient] = None,
     ) -> None:
-        self.api_key = api_key or os.environ.get("SMALLPICT_API_KEY", "")
+        resolved_key: str = str(api_key or os.environ.get("SMALLPICT_API_KEY") or "")
+        self.api_key = resolved_key
         self.secret_key = secret_key or os.environ.get("SMALLPICT_SECRET_KEY")
 
         if not self.api_key:
@@ -53,8 +63,8 @@ class AsyncSmallPictClient:
                 "Missing required SmallPict API Key. Provide `api_key` argument or set SMALLPICT_API_KEY environment variable."
             )
 
-        raw_base: str = base_url or os.environ.get("SMALLPICT_BASE_URL") or "https://api.smallpict.app"
-        self.base_url: str = raw_base.rstrip("/")
+        raw_base: str = str(base_url or os.environ.get("SMALLPICT_BASE_URL") or "https://api.smallpict.app")
+        self.base_url = raw_base.rstrip("/")
         self.timeout = timeout
         self.max_retries = max_retries
         self.fallback_mode = fallback_mode
