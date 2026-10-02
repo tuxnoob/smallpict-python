@@ -5,6 +5,8 @@ High-performance cloud image optimization, format transcoding (WebP, AVIF),
 CDN edge invalidation, and real-time quota tracking.
 """
 
+__version__ = "0.0.5"
+
 from .aclient import AsyncSmallPictClient
 from .client import SmallPictClient
 from .errors import (
@@ -33,7 +35,7 @@ from .models import (
     QuotaResponse,
 )
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __all__ = [
     "AsyncSmallPictClient",
     "AuthenticationError",
