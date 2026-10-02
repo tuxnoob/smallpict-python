@@ -242,6 +242,7 @@ class AsyncSmallPictClient:
                 "quality": options.quality,
                 "max_width": options.max_width,
                 "max_height": options.max_height,
+                "max_dimension": options.max_dimension,
                 "fit": options.fit.value if hasattr(options.fit, "value") else str(options.fit),
                 "lossless": options.lossless,
                 "strip_metadata": options.strip_metadata,

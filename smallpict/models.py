@@ -35,6 +35,7 @@ class OptimizeOptions(BaseModel):
     quality: int = Field(default=80, ge=1, le=100)
     max_width: Optional[int] = None
     max_height: Optional[int] = None
+    max_dimension: Optional[int] = None
     fit: FitMode = FitMode.COVER
     lossless: bool = False
     strip_metadata: bool = True
